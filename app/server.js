@@ -1,8 +1,12 @@
+const express = require("express")
 const mongoose = require("mongoose")
+const app = express()
+const path = require("path")
+const http = require("http")
 
 module.exports = class Application {
-  #express = require("express")
-  #app = this.#express()
+  // #express = require("express")
+  // #app = this.#express()
   constructor(PORT, DB_URL) {
     this.configDatabase(DB_URL)
     this.configApplication()
@@ -11,14 +15,13 @@ module.exports = class Application {
     this.errorHandler()
   }
   configApplication() {
-    const path = require("path")
-    this.#app.use(this.#express.json())
-    this.#app.use(this.#express.urlencoded({ extended: true }))
-    this.#app.use(this.#express.static(path.join(__dirname, "..", "public")))
+    // const path = require("path")
+    app.use(express.json())
+    app.use(express.urlencoded({ extended: true }))
+    app.use(express.static(path.join(__dirname, "..", "public")))
   }
   cerateServer(PORT) {
-    const http = require("http")
-    const server = http.createServer(this.#app);
+    const server = http.createServer(app);
     server.listen(PORT, () => {
       console.log(`server is running on http://localhost:${PORT}`);
     })
@@ -31,14 +34,14 @@ module.exports = class Application {
 
   }
   errorHandler() {
-    this.#app.use((req, res, next) => {
+    app.use((req, res, next) => {
       return res.status(404).json({
         status: 404,
         success: false,
         message: "Page Not Found!"
       })
     })
-    this.#app.use((err, req, res, nexr) => {
+    app.use((err, req, res, nexr) => {
       const status = err?.status || 500
       const message = err?.message || "internal Server ERROR"
       return res.status(status).json({
@@ -49,7 +52,7 @@ module.exports = class Application {
     })
   }
   createRoutes() {
-    this.#app.get("/", (req, res, next) => {
+    app.get("/", (req, res, next) => {
       return res.json({
         message: "New Express APP"
       })
