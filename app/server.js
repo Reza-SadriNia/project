@@ -3,6 +3,7 @@ const mongoose = require("mongoose")
 const app = express()
 const path = require("path")
 const http = require("http")
+const { AllRoutes } = require("./router/router")
 
 module.exports = class Application {
   // #express = require("express")
@@ -13,6 +14,12 @@ module.exports = class Application {
     this.cerateServer(PORT)
     this.createRoutes()
     this.errorHandler()
+  }
+  configDatabase(DB_URL) {
+    mongoose.connect(DB_URL, (err) => {
+      if (err) throw err
+      console.log("connected To DB...");
+    })
   }
   configApplication() {
     // const path = require("path")
@@ -26,13 +33,6 @@ module.exports = class Application {
       console.log(`server is running on http://localhost:${PORT}`);
     })
   }
-  configDatabase(DB_URL) {
-    mongoose.connect(DB_URL, (err) => {
-      if (err) throw err
-      console.log("connected To DB...");
-    })
-
-  }
   errorHandler() {
     app.use((req, res, next) => {
       return res.status(404).json({
@@ -41,7 +41,7 @@ module.exports = class Application {
         message: "Page Not Found!"
       })
     })
-    app.use((err, req, res, nexr) => {
+    app.use((err, req, res, next) => {
       const status = err?.status || 500
       const message = err?.message || "internal Server ERROR"
       return res.status(status).json({
@@ -56,6 +56,13 @@ module.exports = class Application {
       return res.json({
         message: "New Express APP"
       })
-    })
+    });
+    app.use(AllRoutes)
+    // app.use((err, req, res, next) => {
+    //   try {
+    //   } catch (error) {
+    //     next(error)
+    //   }
+    // })
   }
 }

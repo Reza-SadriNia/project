@@ -1,0 +1,11 @@
+###register request
+
+post http://localhost:3000/auth/register
+
+{
+  "username" : "reza_sadrinia",
+  "email" : "rezasadriniaa@gmail.com",
+  "mobile" : "09392866968",
+  "passwrd" : "123456",
+  "confirm_password" : "123456",
+}
