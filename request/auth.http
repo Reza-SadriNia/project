@@ -10,3 +10,14 @@ Content-Type: application/json
   "password" : "abv123",
   "confirm_password" : "abv123"
 }
+
+###login request
+
+post http://localhost:3000/auth/login
+Content-Type: application/json
+Authorization: Bearer {{ $dotenv token }}
+
+{
+  "username" : "reza.sadriniaa",
+  "password" : "123456"
+}

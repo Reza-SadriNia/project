@@ -1,4 +1,4 @@
-const { body } = require("express-validator")
+const { body, check } = require("express-validator")
 const { UserModel } = require("../../models/user")
 
 function registerValidator() {
@@ -38,6 +38,20 @@ function registerValidator() {
   ]
 }
 
+function loginValidation() {
+  return [
+    body("username").notEmpty().withMessage("Username Cannot be empty")
+      .custom(async username => {
+        const checkUsername = /^[a-z]+[a-z0-9\_\.]{2,}/gi
+        if (checkUsername.test(username)) {
+          return true
+        }
+        throw "Wrong Username!"
+      }),
+    body("password").isLength({ min: 6, max: 16 }).withMessage("Password must be Between 6 - 16 char")
+  ]
+}
 module.exports = {
-  registerValidator
+  registerValidator,
+  loginValidation
 }
