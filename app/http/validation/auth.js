@@ -1,24 +1,40 @@
 const { body } = require("express-validator")
+const { UserModel } = require("../../models/user")
+
 function registerValidator() {
   return [
-    body("username").notEmpty().isLength({ min: 4, max: 25 }).custom((value, ctx) => {
+    body("username").custom(async (value, ctx) => {
+      // console.log(value, ctx.req.body);
       if (value) {
-        const checkUsername = /^[a-z]+[a-z0-9 \_|.]{2,}/gi
+        const checkUsername = /^[a-z]+[a-z0-9\.\_]{2,}/gi
         if (checkUsername.test(value)) {
+          const user = await UserModel.findOne({ username: value })
+          if (user) throw "Duplicate Username"
           return true
         }
         throw "username invalid"
+      } else {
+        throw "UserName cannot be Empty"
       }
-      throw "UserName cannot be Empty"
     }),
-    body("email").not().isEmail().withMessage("invalid Email"),
-    body("mobile").not().isMobilePhone("fa-IR").withMessage("phone  number is invalid"),
-    body("password").isLength({ min: 6, max: 16 }).withMessage("Password must be between 6 - 16 character ")
-      .custom((value, ctx) => {
-        if (!value) throw "password cannot be empty"
-        if (value !== ctx?.req?.body?.confirm_password) throw "password not match"
+    body("email").isEmail().withMessage("invalid Email")
+      .custom(async email => {
+        const user = await UserModel.findOne({ email })
+        if (user) throw "Duplicate email address"
         return true
-      })
+      }),
+    body("mobile").isMobilePhone("fa-IR").withMessage("phone number is invalid")
+      .custom(async mobile => {
+        const user = await UserModel.findOne({ mobile })
+        if (user) throw "Duplicate Mobile Number"
+        return true
+      }),
+    body("password").custom((value, ctx) => {
+      // console.log(value, ctx.req.body);
+      if (!value) throw "password cannot be empty"
+      if (value !== ctx?.req?.body?.confirm_password) throw "password not match"
+      return true
+    })
   ]
 }
 

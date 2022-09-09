@@ -58,7 +58,7 @@ module.exports = class Application {
       })
     });
     app.use(AllRoutes)
-    // app.use((err, req, res, next) => {
+    // app.use("*", (req, res, next) => {
     //   try {
     //   } catch (error) {
     //     next(error)

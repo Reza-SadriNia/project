@@ -1,11 +1,12 @@
 ###register request
 
 post http://localhost:3000/auth/register
+Content-Type: application/json
 
 {
-  "username" : "reza_sadrinia",
-  "email" : "rezasadriniaa@gmail.com",
-  "mobile" : "09392866968",
-  "passwrd" : "123456",
-  "confirm_password" : "123456",
+  "username" : "ali.jafar",
+  "email" : "ali_jafari@yaho.com",
+  "mobile" : "09163422689",
+  "password" : "abv123",
+  "confirm_password" : "abv123"
 }
