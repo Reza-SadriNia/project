@@ -48,14 +48,13 @@ class UserController {
       const UserId = req.user._id
       const filepath = req.file?.path?.substring(7)
       const result = await UserModel.updateOne({ _id: UserId }, { $set: { profile_image: filepath } })
-      if (result.modifiedCount == 0) throw { status: 400, message: "update faild!" }
-      return res.status(200)
+      if (result.modifiedCount > 0) return res.status(200)
         .json({
           status: 200,
           success: true,
           message: "Update success"
         })
-
+      throw { status: 400, message: "update faild!" }
     } catch (error) {
       next(error)
     }
