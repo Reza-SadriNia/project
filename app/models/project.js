@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+
 const ProjectSchema = new mongoose.Schema({
   title: { type: String, required: true },
   text: { type: String },
@@ -12,4 +13,4 @@ const ProjectSchema = new mongoose.Schema({
 
 const ProjectModel = mongoose.model("project", ProjectSchema)
 
-module.exports = ProjectModel
+module.exports = { ProjectModel }

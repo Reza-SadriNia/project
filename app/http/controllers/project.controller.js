@@ -1,6 +1,20 @@
-class ProjectController {
-  createProject() {
+const { ProjectModel } = require("../../models/project")
 
+class ProjectController {
+  async createProject(req, res, next) {
+    try {
+      const { title, text } = req.body
+      const owner = req.user._id
+      const result = await ProjectModel.create({ title, text, owner })
+      if (!result) throw { status: 400, message: "Faild in Create Project" }
+      return res.status(201).json({
+        status: 201,
+        success: true,
+        message: "Create Project Success"
+      })
+    } catch (error) {
+      next(error)
+    }
   }
   getAllProject() {
 
