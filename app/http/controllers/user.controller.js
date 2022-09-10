@@ -42,6 +42,23 @@ class UserController {
       next(error)
     }
   }
+  async uploadProfileImage(req, res, next) {
+    try {
+      const UserId = req.user._id
+      const filepath = req.file?.path?.substring(7)
+      const result = await UserModel.updateOne({ _id: UserId }, { $set: { profile_image: filepath } })
+      if (result.modifiedCount == 0) throw { status: 400, message: "update faild!" }
+      return res.status(200)
+        .json({
+          status: 200,
+          success: true,
+          message: "Update success"
+        })
+
+    } catch (error) {
+      next(error)
+    }
+  }
   addSkills() {
 
   }
