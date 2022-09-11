@@ -4,6 +4,7 @@ const { expressValidatorMapper } = require("../http/middleware/checkErrors")
 const { checklogin } = require("../http/middleware/autologin")
 const { uploadfile } = require("../modules/express-fileupload")
 const fileUpload = require("express-fileupload")
+const { mongoIdValidator } = require("../http/validation/public")
 const router = require("express").Router()
 
 router.post("/create",
@@ -14,10 +15,22 @@ router.post("/create",
   expressValidatorMapper,
   ProjectController.createProject
 )
-router.post("/listOfProject",
+router.get("/listOfProject",
   checklogin,
   expressValidatorMapper,
   ProjectController.getAllProject
+)
+router.get("/getProjectById/:id",
+  checklogin,
+  mongoIdValidator(), // Check MongoID
+  expressValidatorMapper,
+  ProjectController.getProjectById
+)
+router.delete("/removeProject/:id",
+  checklogin,
+  mongoIdValidator(), // Check MongoID
+  expressValidatorMapper,
+  ProjectController.removeProject
 )
 
 
