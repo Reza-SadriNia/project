@@ -1,5 +1,4 @@
 ### Create Project
-
 Post http://localhost:3000/project/create
 Authorization: Bearer {{$dotenv token}}
 Content-Type: application/json
@@ -8,3 +7,18 @@ Content-Type: application/json
   "title" : "Project 2",
   "text" : " Project 2  -- Description"
 }
+
+### Create Project
+Get http://localhost:3000/project/listOfProject
+Authorization: Bearer {{$dotenv token}}
+Content-Type: application/json
+
+### Create Project
+Get http://localhost:3000/project/getProjectById/631cd6c1f91daee5eb406722
+Authorization: Bearer {{$dotenv token}}
+Content-Type: application/json
+
+### Create Project
+delete http://localhost:3000/project/removeProject/631cd6c1f91daee5eb406722
+Authorization: Bearer {{$dotenv token}}
+Content-Type: application/json
