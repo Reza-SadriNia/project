@@ -14,6 +14,11 @@ router.post("/create",
   expressValidatorMapper,
   ProjectController.createProject
 )
+router.post("/listOfProject",
+  checklogin,
+  expressValidatorMapper,
+  ProjectController.getAllProject
+)
 
 
 module.exports = {
