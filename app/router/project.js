@@ -32,6 +32,12 @@ router.delete("/removeProject/:id",
   expressValidatorMapper,
   ProjectController.removeProject
 )
+router.put("/updateProject/:id",
+  checklogin,
+  mongoIdValidator(), // Check MongoID
+  expressValidatorMapper,
+  ProjectController.updateProject
+)
 
 
 module.exports = {

@@ -8,17 +8,28 @@ Content-Type: application/json
   "text" : " Project 2  -- Description"
 }
 
-### Create Project
+### List Of Project
 Get http://localhost:3000/project/listOfProject
 Authorization: Bearer {{$dotenv token}}
 Content-Type: application/json
 
-### Create Project
+### Get Project By ID
 Get http://localhost:3000/project/getProjectById/631cd6c1f91daee5eb406722
 Authorization: Bearer {{$dotenv token}}
 Content-Type: application/json
 
-### Create Project
+### Delete Project By Id
 delete http://localhost:3000/project/removeProject/631cd6c1f91daee5eb406722
 Authorization: Bearer {{$dotenv token}}
 Content-Type: application/json
+
+### Edit Project By Id
+put http://localhost:3000/project/updateProject/631cd65bdef2e86f3a32c0de
+Authorization: Bearer {{$dotenv token}}
+Content-Type: application/json
+
+{
+  "title" : "test",
+  "text" : "text test",
+  "tags" : ["" , "" , ""]
+}

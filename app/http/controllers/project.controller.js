@@ -83,13 +83,26 @@ class ProjectController {
       next(error)
     }
   }
+  async updateProject(req, res, next) {
+    try {
+      const owner = req.user._id
+      const projectId = req.params
+      const { title, text, image, team, tags } = req.body
+      const updateresult = await ProjectModel.updateOne({ owner, projectId }, { $set: { ...req.body } })
+      if (updateresult.modifiedCount == 0) throw { status: 400, message: "update faild!" }
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        message: "update success"
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
   getAllProjectOfTeam() {
 
   }
   getProjectOfUser() {
-
-  }
-  updateProject() {
 
   }
 
