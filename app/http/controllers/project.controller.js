@@ -1,5 +1,6 @@
 const autoBind = require("auto-bind")
 const { ProjectModel } = require("../../models/project")
+const { createLink } = require("../../modules/function")
 
 class ProjectController {
   constructor() {
@@ -34,12 +35,13 @@ class ProjectController {
       const owner = req.user._id
       const projects = await ProjectModel.find({ owner },
         {
-          image: 0,
-          private: 0,
           __v: 0,
           createdAt: 0,
           updatedAt: 0
         })
+      for (const project of projects) {
+        project.image = createLink(project.image, req)
+      }
       return res.status(200).json({
         status: 200,
         success: true,
@@ -56,6 +58,7 @@ class ProjectController {
       const owner = req.user._id
       const projectId = req.params.id
       const project = await this.findProject(owner, projectId)
+      project.image = createLink(project.image, req)
       res.status(200).json({
         status: 200,
         success: true,
@@ -86,10 +89,27 @@ class ProjectController {
   async updateProject(req, res, next) {
     try {
       const owner = req.user._id
-      const projectId = req.params
+      const projectId = req.params.id
       const { title, text, image, team, tags } = req.body
       const updateresult = await ProjectModel.updateOne({ owner, projectId }, { $set: { ...req.body } })
       if (updateresult.modifiedCount == 0) throw { status: 400, message: "update faild!" }
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        message: "update success"
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+  async updateProjectImage(req, res, next) {
+    try {
+      const { image } = req.body
+      const owner = req.user._id
+      const projectId = req.params.id
+      await this.findProject(owner, projectId)
+      const updateresult = await ProjectModel.updateOne({ _id: projectId }, { $set: { image } })
+      if (updateresult.modifiedCount == 0) throw { status: 400, message: "update faild" }
       return res.status(200).json({
         status: 200,
         success: true,

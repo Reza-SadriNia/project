@@ -38,6 +38,14 @@ router.put("/updateProject/:id",
   expressValidatorMapper,
   ProjectController.updateProject
 )
+router.patch("/updateProjectProfile/:id",
+  fileUpload(),
+  checklogin,
+  uploadfile,
+  mongoIdValidator(), // Check MongoID
+  expressValidatorMapper,
+  ProjectController.updateProjectImage
+)
 
 
 module.exports = {
