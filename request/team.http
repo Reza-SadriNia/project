@@ -1,0 +1,15 @@
+### Create Team
+post http://localhost:3000/team/craete
+Content-Type: application/json
+Authorization: Bearer {{$dotenv token}}
+
+{
+  "name" : "Tetherland",
+  "description" : "Tether Market",
+  "username" : "fdgdg"
+}
+
+### Get List Of Teams
+Get http://localhost:3000/team/getListOfTeams
+Content-Type: application/json
+Authorization: Bearer {{$dotenv token}}
