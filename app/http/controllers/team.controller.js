@@ -1,11 +1,14 @@
 const TeamModel = require("../../models/team");
+const { UserModel } = require("../../models/user");
 
 class TeamController {
   async createTeam(req, res, next) {
     try {
       const { name, description } = req.body
       const owner = req.user._id
-      const team = await TeamModel.create({ name, description, owner })
+      const findusername = await UserModel.findOne({ owner })
+      const username = findusername.username
+      const team = await TeamModel.create({ name, description, owner, username })
       if (!team) throw { status: 500, message: "create team faild" }
       return res.status(201).json({
         status: 201,

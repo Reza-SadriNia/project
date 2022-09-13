@@ -5,11 +5,15 @@ Authorization: Bearer {{$dotenv token}}
 
 {
   "name" : "Tetherland",
-  "description" : "Tether Market",
-  "username" : "fdgdg"
+  "description" : "Tether Market"
 }
 
 ### Get List Of Teams
 Get http://localhost:3000/team/getListOfTeams
+Content-Type: application/json
+Authorization: Bearer {{$dotenv token}}
+
+### Get Team By Id
+Get http://localhost:3000/team/6320b2b31379ceaf597b25fa
 Content-Type: application/json
 Authorization: Bearer {{$dotenv token}}
