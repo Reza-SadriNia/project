@@ -27,6 +27,31 @@ class TeamController {
       next(error)
     }
   }
+  async getTeamById(req, res, next) {
+    try {
+      const TeamId = req.params.id
+      const findResult = await TeamModel.findOne({ TeamId }, { __v: 0 })
+      if (!findResult) throw { status: 400, message: "Team Not Found !" }
+      return res.status(200).json(findResult)
+    } catch (error) {
+      next(error)
+    }
+  }
+  async getMyTeams(req, res, next) {
+    try {
+      const userId = req.user._id
+      const teams = await TeamModel.find({
+        $or: [
+          { owner: userId },
+          { users: userId }
+        ]
+      })
+      if (!teams) throw { status: 400, message: "Your Not in Any Teams" }
+      return res.status(200).json(teams)
+    } catch (error) {
+      next(error)
+    }
+  }
   inviteUserToTeam() {
 
   }
