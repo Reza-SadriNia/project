@@ -8,8 +8,8 @@ const router = require("express").Router()
 router.post("/craete", checklogin, createteamValidation(), expressValidatorMapper, TeamController.createTeam)
 router.get("/getListOfTeams", checklogin, expressValidatorMapper, TeamController.getListOfTeams)
 router.get("/", checklogin, TeamController.getMyTeams)
+router.delete("/remove/:id", checklogin, mongoIdValidator(), expressValidatorMapper, TeamController.removeTeam)
 router.get("/:id", checklogin, mongoIdValidator(), expressValidatorMapper, TeamController.getTeamById)
-router.delete("/:id", checklogin, mongoIdValidator(), expressValidatorMapper, TeamController.removeTeam)
 
 module.exports = {
   teamRoutes: router

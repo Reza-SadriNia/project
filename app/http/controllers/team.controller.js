@@ -55,9 +55,19 @@ class TeamController {
   async removeTeam(req, res, next) {
     try {
       const TeamId = req.params.id
-      const findTeam = await TeamModel.deleteOne({ _id: TeamId })
-      if (findTeam.deletedCount > 0) return res.status(200).json({ status: 200, message: "Delete Success" })
-      return res.status(400).json({ status: 400, message: "Team Not Found" })
+      const team = await TeamModel.findById(TeamId)
+      if (!team) throw { status: 400, message: "Team Not Found !" }
+      const deleteResult = await TeamModel.deleteOne({ _id: TeamId })
+      if (deleteResult.deletedCount == 1) return res.status(200).json({
+        status: 200,
+        success: true,
+        message: "Delete Success"
+      })
+      return res.status(400).json({
+        status: 400,
+        success: false,
+        message: "Delete Faild"
+      })
     } catch (error) {
       next(error)
     }
