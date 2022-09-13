@@ -52,10 +52,17 @@ class TeamController {
       next(error)
     }
   }
-  inviteUserToTeam() {
-
+  async removeTeam(req, res, next) {
+    try {
+      const TeamId = req.params.id
+      const findTeam = await TeamModel.deleteOne({ _id: TeamId })
+      if (findTeam.deletedCount > 0) return res.status(200).json({ status: 200, message: "Delete Success" })
+      return res.status(400).json({ status: 400, message: "Team Not Found" })
+    } catch (error) {
+      next(error)
+    }
   }
-  removeTeam() {
+  inviteUserToTeam() {
 
   }
   updateTeam() {

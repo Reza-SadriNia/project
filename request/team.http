@@ -22,3 +22,8 @@ Authorization: Bearer {{$dotenv token}}
 Get http://localhost:3000/team
 Content-Type: application/json
 Authorization: Bearer {{$dotenv token}}
+
+### Delete Team By Id
+Delete http://localhost:3000/team/6320e58835c046bc10e9155
+Content-Type: application/json
+Authorization: Bearer {{$dotenv token}}

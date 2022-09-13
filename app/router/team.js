@@ -9,6 +9,7 @@ router.post("/craete", checklogin, createteamValidation(), expressValidatorMappe
 router.get("/getListOfTeams", checklogin, expressValidatorMapper, TeamController.getListOfTeams)
 router.get("/", checklogin, TeamController.getMyTeams)
 router.get("/:id", checklogin, mongoIdValidator(), expressValidatorMapper, TeamController.getTeamById)
+router.delete("/:id", checklogin, mongoIdValidator(), expressValidatorMapper, TeamController.removeTeam)
 
 module.exports = {
   teamRoutes: router
