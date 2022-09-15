@@ -12,3 +12,13 @@ Content-Type: application/json
   "last_name": "sadriniaa",
   "skills": ["NodeJS" , "Programming" , "ExpressJS"]
 }
+
+### Get user invite Requests
+Get http://localhost:3000/user/invite-requests
+Authorization: Bearer {{$dotenv token}}
+Content-Type: application/json
+
+### Get user invite Requests
+Get http://localhost:3000/user/requests/Rejected
+Authorization: Bearer {{$dotenv token}}
+Content-Type: application/json
