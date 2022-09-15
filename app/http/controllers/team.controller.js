@@ -1,13 +1,18 @@
-const TeamModel = require("../../models/team");
+const autoBind = require("auto-bind");
+const { TeamModel } = require("../../models/team");
 const { UserModel } = require("../../models/user");
 
 class TeamController {
+  constructor() {
+    autoBind(this)
+  }
   async createTeam(req, res, next) {
     try {
       const { name, description } = req.body
       const owner = req.user._id
-      const findusername = await UserModel.findOne({ owner })
-      const username = findusername.username
+      // const findusername = await UserModel.findOne({ owner })
+      // const username = findusername.username
+      const username = req.user.username
       const team = await TeamModel.create({ name, description, owner, username })
       if (!team) throw { status: 500, message: "create team faild" }
       return res.status(201).json({
@@ -72,8 +77,43 @@ class TeamController {
       next(error)
     }
   }
-  inviteUserToTeam() {
-
+  async findUserInTeam(teamId, userId) {
+    const result = await TeamModel.findOne({
+      $or: [{ owner: userId }, { users: userId }],
+      _id: teamId
+    })
+    return !!result
+  }
+  async inviteUserToTeam(req, res, next) {
+    try {
+      const userId = req.user._id
+      console.log(userId);
+      const { username, teamId } = req.params
+      console.log(username, teamId);
+      const team = await this.findUserInTeam(teamId, userId)
+      if (!team) throw { status: 400, message: "Team Not Found For Invite" }
+      const user = await UserModel.findOne({ username })
+      if (!user) throw { status: 400, message: "User Not Found For Invite" }
+      const userInvited = await this.findUserInTeam(teamId, user._id)
+      if (userInvited) throw { status: 400, message: "This User exist in Team" };
+      const request = {
+        caller: req.user.username,
+        requestDate: new Date(),
+        teamId,
+        status: "Pending"
+      }
+      const updateUserResult = await UserModel.updateOne({ username },
+        { $push: { inviteRequest: request } }
+      )
+      if (updateUserResult.modifiedCount == 0) throw { status: 500, message: "Invite Faild!" }
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        message: "Invite Success"
+      })
+    } catch (error) {
+      next(error)
+    }
   }
   updateTeam() {
 

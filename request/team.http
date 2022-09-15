@@ -4,8 +4,8 @@ Content-Type: application/json
 Authorization: Bearer {{$dotenv token}}
 
 {
-  "name" : "SamEx",
-  "description" : "SamEx Market"
+  "name" : "team-mohammad",
+  "description" : "team-mohammad"
 }
 
 ### Get List Of Teams
@@ -14,7 +14,7 @@ Content-Type: application/json
 Authorization: Bearer {{$dotenv token}}
 
 ### Get Team By Id
-Get http://localhost:3000/team/6320b2b31379ceaf597b25fa
+Get http://localhost:3000/team/63234507bde557a0b152dc71
 Content-Type: application/json
 Authorization: Bearer {{$dotenv token}}
 
@@ -25,5 +25,10 @@ Authorization: Bearer {{$dotenv token}}
 
 ### Delete Team By Id
 Delete http://localhost:3000/team/remove/6320e7d42d35e31e291204b9
+Content-Type: application/json
+Authorization: Bearer {{$dotenv token}}
+
+### Invite User To Team 
+Get http://localhost:3000/team/invite/63234c7f3569bdf852328f2c/reza
 Content-Type: application/json
 Authorization: Bearer {{$dotenv token}}
