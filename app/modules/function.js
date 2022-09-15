@@ -31,7 +31,7 @@ function createUploadpath() {
 
 function createLink(fileaddress, req) {
   // console.log(req);
-  return req.protocol + "://" + req.get("host") + "/" + (fileaddress.replace(/[\\\\]/gm, "/"))
+  return fileaddress ? (req.protocol + "://" + req.get("host") + "/" + (fileaddress.replace(/[\\\\]/gm, "/"))) : undefined
 }
 
 module.exports = {

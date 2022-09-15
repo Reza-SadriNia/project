@@ -5,7 +5,7 @@ class UserController {
   getProfile(req, res, next) {
     try {
       const user = req.user
-      // user.profile_image = createLink(user.profile_image, req)
+      user.profile_image = createLink(user.profile_image, req)
       return res.status(200).json({
         status: 200,
         success: true,
@@ -59,6 +59,16 @@ class UserController {
     } catch (error) {
       next(error)
     }
+  }
+  async getAllRequest(req, res, next) {
+    try {
+      const userId = req.user._id
+      const requests = await UserModel.findById(userId, { _id: 0, inviteRequest: 1 })
+      return res.status(200).json({ requests })
+    } catch (error) {
+      next(error)
+    }
+
   }
   addSkills() {
 
