@@ -12,6 +12,7 @@ router.post("/profile-image", imageValidator(), upload_multer.single("image"),
 )
 router.get("/invite-requests", checklogin, UserController.getAllRequest)
 router.get("/requests/:status", checklogin, UserController.getRequestsByStatus)
+router.get("/changeStatus/:id/:status", checklogin, UserController.changeStatusRequest)
 
 module.exports = {
   userRoutes: router

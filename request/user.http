@@ -13,12 +13,17 @@ Content-Type: application/json
   "skills": ["NodeJS" , "Programming" , "ExpressJS"]
 }
 
-### Get user invite Requests
+### Get All Request
 Get http://localhost:3000/user/invite-requests
 Authorization: Bearer {{$dotenv token}}
 Content-Type: application/json
 
-### Get user invite Requests
+### Get invite Requests By Status
 Get http://localhost:3000/user/requests/Rejected
+Authorization: Bearer {{$dotenv token}}
+Content-Type: application/json
+
+### Change Request Status
+Get http://localhost:3000/user/changeStatus/632374bcb3274d1c4327d440/Accepted
 Authorization: Bearer {{$dotenv token}}
 Content-Type: application/json
