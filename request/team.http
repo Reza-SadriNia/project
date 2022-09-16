@@ -32,3 +32,13 @@ Authorization: Bearer {{$dotenv token}}
 Get http://localhost:3000/team/invite/63234c7f3569bdf852328f2c/reza
 Content-Type: application/json
 Authorization: Bearer {{$dotenv token}}
+
+### update Team 
+Put http://localhost:3000/team/update/6323740fb3274d1c4327d42a
+Content-Type: application/json
+Authorization: Bearer {{$dotenv token}}
+
+{
+  "name" : "Edited Team By Reza",
+  "Description" : "Edited Team By Reza"
+}

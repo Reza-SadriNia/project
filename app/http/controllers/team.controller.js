@@ -115,8 +115,27 @@ class TeamController {
       next(error)
     }
   }
-  updateTeam() {
-
+  async updateTeam(req, res, next) {
+    try {
+      const data = { ...req.body }
+      Object.keys(data).forEach(key => {
+        if (!data[key]) delete data[key]
+        if (["", " ", undefined, null, NaN].includes(data[key])) delete data[key]
+      })
+      const userId = req.user._id
+      const { teamId } = req.params
+      const team = await TeamModel.findOne({ _id: teamId, owner: userId })
+      if (!team) throw { status: 404, message: "Team Not Found !" }
+      const updateResult = await TeamModel.updateOne({ _id: teamId }, { $set: data })
+      if (updateResult.modifiedCount == 0) throw { status: 500, message: "update Faild" }
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        message: "Update Success"
+      })
+    } catch (error) {
+      next(error)
+    }
   }
   removeTeamById() {
 
